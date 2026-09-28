@@ -738,34 +738,38 @@
         });
       });
     function compile() {
-      if (!selections.length) {
-        output.textContent = "Выбери хотя бы один элемент, чтобы собрать первый музыкальный бриф.";
-        return;
-      }
+    function compile() {
+  if (!selections.length) {
+    output.textContent = "Выбери хотя бы один элемент, чтобы собрать первый музыкальный бриф.";
+    return;
+  }
 
-      const groups = {};
-      selections.forEach(item => {
-        if (!groups[item.type]) groups[item.type] = [];
-        groups[item.type].push(item.value);
-      });
+  const groups = {};
 
-      const result = [
-        "UNIVERSAL MUSIC COMPILER // DRAFT",
-        "",
-        `Основа: ${(groups["Основа"] || ["не задана"]).join(", ")}`,
-        `Ритмика: ${(groups["Ритмика"] || ["не задана"]).join(", ")}`,
-        `Настроение: ${(groups["Настроение"] || ["не задано"]).join(", ")}`,
-        `Вокал: ${(groups["Вокал"] || ["не задан"]).join(", ")}`,
-        `Оркестровка: ${(groups["Оркестровка"] || ["не задана"]).join(", ")}`,
-        "",
-        "Задача:",
-        "Собрать связную музыкальную композицию, распределив",
-        "элементы по ролям и сохранив главный характер сцены."
-      ].join("\\n");
+  selections.forEach(item => {
+    const role = item.role || getDefaultRole(item.type);
 
-      output.textContent = result;
-    }
+    if (!groups[role]) groups[role] = [];
+    groups[role].push(item.value);
+  });
 
+  const result = [
+    "UNIVERSAL MUSIC COMPILER // DRAFT",
+    "",
+    `Основа: ${(groups["Основа"] || ["не задана"]).join(", ")}`,
+    `Влияние: ${(groups["Влияние"] || ["не задано"]).join(", ")}`,
+    `Ритмика: ${(groups["Ритмика"] || ["не задана"]).join(", ")}`,
+    `Инструменты: ${(groups["Инструмент"] || ["не заданы"]).join(", ")}`,
+    `Вокальная подача: ${(groups["Вокальная подача"] || ["не задана"]).join(", ")}`,
+    `Оркестровка: ${(groups["Оркестровка"] || ["не задана"]).join(", ")}`,
+    "",
+    "Задача:",
+    "Собрать связную музыкальную композицию, распределив",
+    "элементы по ролям и сохранив главный характер сцены."
+  ].join("\n");
+
+  output.textContent = result;
+}
         const catalogContent = document.getElementById("catalogContent");
     const catalogSearch = document.getElementById("catalogSearch");
     const catalogTabs = document.querySelectorAll("[data-catalog-tab]");
