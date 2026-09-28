@@ -738,8 +738,24 @@
       );
     }
 
+        function getDefaultRole(type) {
+      const roles = {
+        "Жанр": "Основа",
+        "Ритмика": "Ритмика",
+        "Инструмент": "Инструмент",
+        "Вокал": "Вокальная подача"
+      };
+
+      return roles[type] || "Влияние";
+    }
+
     function addCatalogItem(type, value) {
-      selections.push({ type, value });
+      selections.push({
+        type,
+        value,
+        role: getDefaultRole(type)
+      });
+
       renderScene();
       compile();
     }
@@ -935,7 +951,13 @@
         ["Оркестровка", "string section"]
       ];
 
-      sample.forEach(([type, value]) => selections.push({ type, value }));
+      sample.forEach(([type, value]) => {
+  selections.push({
+    type,
+    value,
+    role: getDefaultRole(type)
+  });
+});
 
       document.querySelectorAll(".chip").forEach(chip => {
         chip.classList.toggle(
