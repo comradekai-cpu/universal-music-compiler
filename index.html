@@ -737,8 +737,7 @@
           compile();
         });
       });
-    function compile() {
-    function compile() {
+   function compile() {
   if (!selections.length) {
     output.textContent = "Выбери хотя бы один элемент, чтобы собрать первый музыкальный бриф.";
     return;
@@ -770,6 +769,7 @@
 
   output.textContent = result;
 }
+   
         const catalogContent = document.getElementById("catalogContent");
     const catalogSearch = document.getElementById("catalogSearch");
     const catalogTabs = document.querySelectorAll("[data-catalog-tab]");
