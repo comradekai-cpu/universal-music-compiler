@@ -488,65 +488,28 @@
     </section>
 
     <section class="workspace">
-      <aside class="panel">
+           <aside class="panel">
         <div class="panel-title">
-          <h3>Материалы</h3>
-          <span>выбери элементы</span>
+          <h3>Каталог</h3>
+          <span>выбор материалов</span>
         </div>
 
-        <div class="category">
-          <h4>Жанровая основа</h4>
-          <div class="chip-list">
-            <button class="chip" data-type="Основа" data-value="Salsa">Salsa</button>
-            <button class="chip" data-type="Основа" data-value="Cabaret">Cabaret</button>
-            <button class="chip" data-type="Основа" data-value="Chanson">Chanson</button>
-            <button class="chip" data-type="Основа" data-value="Jazz">Jazz</button>
-            <button class="chip" data-type="Основа" data-value="Rock">Rock</button>
-            <button class="chip" data-type="Основа" data-value="Electronic">Electronic</button>
-          </div>
+        <input
+          id="catalogSearch"
+          class="catalog-search"
+          type="search"
+          placeholder="Поиск жанра, поджанра или инструмента..."
+        >
+
+        <div class="catalog-tabs">
+          <button class="catalog-tab active" data-catalog-tab="genres">Жанры</button>
+          <button class="catalog-tab" data-catalog-tab="rhythms">Ритмы</button>
+          <button class="catalog-tab" data-catalog-tab="instruments">Инструменты</button>
+          <button class="catalog-tab" data-catalog-tab="vocals">Вокал</button>
         </div>
 
-        <div class="category">
-          <h4>Ритмика</h4>
-          <div class="chip-list">
-            <button class="chip" data-type="Ритмика" data-value="clave 3-2">Clave 3-2</button>
-            <button class="chip" data-type="Ритмика" data-value="swing groove">Swing</button>
-            <button class="chip" data-type="Ритмика" data-value="tango pulse">Tango</button>
-            <button class="chip" data-type="Ритмика" data-value="straight beat">Straight</button>
-          </div>
-        </div>
-
-        <div class="category">
-          <h4>Настроение</h4>
-          <div class="chip-list">
-            <button class="chip" data-type="Настроение" data-value="theatrical">Theatrical</button>
-            <button class="chip" data-type="Настроение" data-value="melancholic">Melancholic</button>
-            <button class="chip" data-type="Настроение" data-value="energetic">Energetic</button>
-            <button class="chip" data-type="Настроение" data-value="cinematic">Cinematic</button>
-          </div>
-        </div>
-
-        <div class="category">
-          <h4>Вокал</h4>
-          <div class="chip-list">
-            <button class="chip" data-type="Вокал" data-value="dramatic male vocal">Male dramatic</button>
-            <button class="chip" data-type="Вокал" data-value="intimate female vocal">Female intimate</button>
-            <button class="chip" data-type="Вокал" data-value="theatrical delivery">Theatrical</button>
-            <button class="chip" data-type="Вокал" data-value="spoken word">Spoken word</button>
-          </div>
-        </div>
-
-        <div class="category">
-          <h4>Оркестровка</h4>
-          <div class="chip-list">
-            <button class="chip" data-type="Оркестровка" data-value="brass ensemble">Brass ensemble</button>
-            <button class="chip" data-type="Оркестровка" data-value="string section">String section</button>
-            <button class="chip" data-type="Оркестровка" data-value="chamber ensemble">Chamber ensemble</button>
-            <button class="chip" data-type="Оркестровка" data-value="live rhythm section">Live rhythm section</button>
-          </div>
-        </div>
+        <div id="catalogContent"></div>
       </aside>
-
       <section class="panel">
         <div class="panel-title">
           <h3>Музыкальная сцена</h3>
