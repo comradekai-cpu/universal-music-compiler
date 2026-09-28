@@ -238,7 +238,111 @@
       color: var(--muted);
       font-size: 11px;
     }
+    .catalog-search {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      outline: none;
+      color: var(--text);
+      background: #0f151f;
+      font-size: 12px;
+    }
 
+    .catalog-search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(114, 224, 186, 0.12);
+    }
+
+    .catalog-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .catalog-tab {
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: #18202d;
+      font-size: 11px;
+    }
+
+    .catalog-tab.active,
+    .catalog-tab:hover {
+      border-color: var(--accent);
+      color: #07120f;
+      background: var(--accent);
+    }
+
+    .family-button {
+      width: 100%;
+      margin-bottom: 7px;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--text);
+      background: #18202d;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .family-button:hover,
+    .family-button.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .catalog-group {
+      margin-bottom: 15px;
+    }
+
+    .catalog-group-title {
+      margin: 0 0 8px;
+      color: var(--orange);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .catalog-result {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 7px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--text);
+      background: #18202d;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .catalog-result:hover {
+      border-color: var(--accent);
+      background: #202d3b;
+    }
+
+    .catalog-result small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .catalog-empty {
+      padding: 18px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
     .category {
       margin-bottom: 18px;
     }
