@@ -722,20 +722,197 @@
       output.textContent = result;
     }
 
-    document.querySelectorAll(".chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        const item = {
-          type: chip.dataset.type,
-          value: chip.dataset.value
-        };
+        const catalogContent = document.getElementById("catalogContent");
+    const catalogSearch = document.getElementById("catalogSearch");
+    const catalogTabs = document.querySelectorAll("[data-catalog-tab]");
 
-        selections.push(item);
-        chip.classList.add("selected");
-        renderScene();
-        compile();
+    let activeCatalogTab = "genres";
+    let activeFamily = null;
+
+    function getGenreItems() {
+      return MUSIC_CATALOG.genres.flatMap(group =>
+        group.items.map(item => ({
+          ...item,
+          family: group.family
+        }))
+      );
+    }
+
+    function addCatalogItem(type, value) {
+      selections.push({ type, value });
+      renderScene();
+      compile();
+    }
+
+    function renderCatalog() {
+      const searchText = catalogSearch.value.trim().toLowerCase();
+
+      if (activeCatalogTab === "genres") {
+        renderGenreCatalog(searchText);
+        return;
+      }
+
+      const source = {
+        rhythms: MUSIC_CATALOG.rhythms,
+        instruments: MUSIC_CATALOG.instruments,
+        vocals: MUSIC_CATALOG.vocals
+      }[activeCatalogTab] || [];
+
+      const filtered = source.filter(item =>
+        item.toLowerCase().includes(searchText)
+      );
+
+      if (!filtered.length) {
+        catalogContent.innerHTML = `
+          <div class="catalog-empty">Ничего не найдено.</div>
+        `;
+        return;
+      }
+
+      catalogContent.innerHTML = `
+        <div class="catalog-group">
+          <h4 class="catalog-group-title">${getTabTitle(activeCatalogTab)}</h4>
+          ${filtered.map(item => `
+            <button class="catalog-result" data-catalog-add="${escapeHtml(item)}">
+              <span>${escapeHtml(item)}</span>
+              <span>+</span>
+            </button>
+          `).join("")}
+        </div>
+      `;
+
+      bindCatalogButtons();
+    }
+
+    function renderGenreCatalog(searchText = "") {
+      const allItems = getGenreItems();
+
+      if (searchText) {
+        const filtered = allItems.filter(item => {
+          const haystack = [
+            item.name,
+            item.family,
+            ...(item.tags || [])
+          ].join(" ").toLowerCase();
+
+          return haystack.includes(searchText);
+        });
+
+        catalogContent.innerHTML = filtered.length
+          ? `
+            <div class="catalog-group">
+              <h4 class="catalog-group-title">Результаты поиска</h4>
+              ${filtered.map(item => genreButton(item)).join("")}
+            </div>
+          `
+          : `<div class="catalog-empty">Жанр или поджанр не найден.</div>`;
+
+        bindCatalogButtons();
+        return;
+      }
+
+      if (!activeFamily) {
+        catalogContent.innerHTML = MUSIC_CATALOG.genres.map(group => `
+          <button class="family-button" data-family="${escapeHtml(group.family)}">
+            ${escapeHtml(group.family)}
+          </button>
+        `).join("");
+
+        document.querySelectorAll("[data-family]").forEach(button => {
+          button.addEventListener("click", () => {
+            activeFamily = button.dataset.family;
+            renderCatalog();
+          });
+        });
+
+        return;
+      }
+
+      const group = MUSIC_CATALOG.genres.find(
+        item => item.family === activeFamily
+      );
+
+      if (!group) {
+        activeFamily = null;
+        renderCatalog();
+        return;
+      }
+
+      catalogContent.innerHTML = `
+        <button class="family-button" id="backToFamilies">← Все семейства</button>
+        <div class="catalog-group">
+          <h4 class="catalog-group-title">${escapeHtml(group.family)}</h4>
+          ${group.items.map(item => genreButton(item)).join("")}
+        </div>
+      `;
+
+      document.getElementById("backToFamilies").addEventListener("click", () => {
+        activeFamily = null;
+        renderCatalog();
+      });
+
+      bindCatalogButtons();
+    }
+
+    function genreButton(item) {
+      const subtitle = item.tags?.slice(0, 3).join(" · ") || "музыкальное направление";
+
+      return `
+        <button
+          class="catalog-result"
+          data-catalog-add="${escapeHtml(item.name)}"
+          data-catalog-type="Жанр"
+        >
+          <span>
+            ${escapeHtml(item.name)}
+            <small>${escapeHtml(subtitle)}</small>
+          </span>
+          <span>+</span>
+        </button>
+      `;
+    }
+
+    function bindCatalogButtons() {
+      document.querySelectorAll("[data-catalog-add]").forEach(button => {
+        button.addEventListener("click", () => {
+          const type = button.dataset.catalogType || getTabTitle(activeCatalogTab);
+          addCatalogItem(type, button.dataset.catalogAdd);
+        });
+      });
+    }
+
+    function getTabTitle(tab) {
+      return {
+        genres: "Жанр",
+        rhythms: "Ритмика",
+        instruments: "Инструмент",
+        vocals: "Вокал"
+      }[tab] || "Элемент";
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    catalogTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        catalogTabs.forEach(item => item.classList.remove("active"));
+        tab.classList.add("active");
+        activeCatalogTab = tab.dataset.catalogTab;
+        activeFamily = null;
+        catalogSearch.value = "";
+        renderCatalog();
       });
     });
 
+    catalogSearch.addEventListener("input", renderCatalog);
+
+    renderCatalog();
     document.getElementById("buildButton").addEventListener("click", compile);
 
     document.getElementById("clearButton").addEventListener("click", () => {
