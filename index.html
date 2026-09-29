@@ -999,11 +999,11 @@
         ["Оркестровка", "string section"]
       ];
 
-      sample.forEach(([type, value]) => {
+   sample.forEach(([role, value]) => {
   selections.push({
-    type,
+    type: role,
     value,
-    role: getDefaultRole(type)
+    role
   });
 });
 
