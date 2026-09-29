@@ -773,10 +773,16 @@ document.querySelectorAll("[data-remove]").forEach(button => {
     `Инструменты: ${(groups["Инструмент"] || ["не заданы"]).join(", ")}`,
     `Вокальная подача: ${(groups["Вокальная подача"] || ["не задана"]).join(", ")}`,
     `Оркестровка: ${(groups["Оркестровка"] || ["не задана"]).join(", ")}`,
-    "",
-    "Задача:",
-    "Собрать связную музыкальную композицию, распределив",
-    "элементы по ролям и сохранив главный характер сцены."
+       "",
+    "PROMPT:",
+    `Create a ${((groups["Основа"] || ["genre-neutral"])).join(" and ")} composition.`,
+    `Main style: ${(groups["Основа"] || ["not specified"]).join(", ")}.`,
+    `Style influences: ${(groups["Влияние"] || ["none"]).join(", ")}.`,
+    `Rhythm: ${(groups["Ритмика"] || ["not specified"]).join(", ")}.`,
+    `Instrumentation: ${(groups["Инструмент"] || ["not specified"]).join(", ")}.`,
+    `Vocal delivery: ${(groups["Вокальная подача"] || ["instrumental or not specified"]).join(", ")}.`,
+    `Orchestration: ${(groups["Оркестровка"] || ["not specified"]).join(", ")}.`,
+    "Create a cohesive arrangement with a clear musical identity."
   ].join("\n");
 
   output.textContent = result;
