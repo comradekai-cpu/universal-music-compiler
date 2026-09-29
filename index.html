@@ -731,16 +731,21 @@
         });
       });
     }
+console.log("role binding start");
+
 document.querySelectorAll("[data-role-index]").forEach(select => {
   select.addEventListener("change", event => {
     const index = Number(event.currentTarget.dataset.roleIndex);
     const item = selections[index];
 
-    if (!item) return;
+    if (!item) {
+      console.log("item not found", index, selections);
+      return;
+    }
 
     item.role = event.currentTarget.value;
 
-    console.log("role changed", index, item.role, item.value);
+    console.log("role changed", index, item.value, item.role);
 
     compile();
   });
