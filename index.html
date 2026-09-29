@@ -730,15 +730,17 @@
         });
       });
     }
- document.querySelectorAll("[data-role-index]").forEach(select => {
-  select.addEventListener("change", () => {
-    const index = Number(select.dataset.roleIndex);
-    selections[index].role = select.value;
+document.querySelectorAll("[data-role-index]").forEach(select => {
+  select.addEventListener("change", event => {
+    const index = Number(event.currentTarget.dataset.roleIndex);
+    const item = selections[index];
 
-    console.log("Изменён элемент:", selections[index]);
-    console.table(selections);
+    if (!item) return;
 
-    renderScene();
+    item.role = event.currentTarget.value;
+
+    console.log("role changed", index, item.role, item.value);
+
     compile();
   });
 });
