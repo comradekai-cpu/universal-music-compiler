@@ -731,12 +731,17 @@
       });
     }
  document.querySelectorAll("[data-role-index]").forEach(select => {
-        select.addEventListener("change", () => {
-          const index = Number(select.dataset.roleIndex);
-          selections[index].role = select.value;
-          compile();
-        });
-      });
+  select.addEventListener("change", () => {
+    const index = Number(select.dataset.roleIndex);
+    selections[index].role = select.value;
+
+    console.log("Изменён элемент:", selections[index]);
+    console.table(selections);
+
+    renderScene();
+    compile();
+  });
+});
    function compile() {
   if (!selections.length) {
     output.textContent = "Выбери хотя бы один элемент, чтобы собрать первый музыкальный бриф.";
