@@ -708,40 +708,27 @@
         return;
       }
 
-      scene.innerHTML = selections.map((item, index) => `
-      <div class="selection">
-  <div class="selection-info">
-    <div class="selection-label">${item.type}</div>
-    <div class="selection-value">${item.value}</div>
+ scene.innerHTML = selections.map((item, index) => `
+  <div class="selection">
+    <div class="selection-info">
+      <div class="selection-label">${item.type}</div>
+      <div class="selection-value">${item.value}</div>
 
-    <select class="role-select" data-role-index="${index}">
-      ${getRoleOptions(item.role)}
-    </select>
+      <select class="role-select" data-role-index="${index}">
+        ${getRoleOptions(item.role)}
+      </select>
+    </div>
+
+    <button class="remove-button" data-remove="${index}" title="Удалить">×</button>
   </div>
-
-  <button class="remove-button" data-remove="${index}" title="Удалить">×</button>
-</div>
-      `).join("");
-
-      document.querySelectorAll("[data-remove]").forEach(button => {
-        button.addEventListener("click", () => {
-          selections.splice(Number(button.dataset.remove), 1);
-          renderScene();
-          compile();
-        });
-      });
-    }
-console.log("role binding start");
+`).join("");
 
 document.querySelectorAll("[data-role-index]").forEach(select => {
   select.addEventListener("change", event => {
     const index = Number(event.currentTarget.dataset.roleIndex);
     const item = selections[index];
 
-    if (!item) {
-      console.log("item not found", index, selections);
-      return;
-    }
+    if (!item) return;
 
     item.role = event.currentTarget.value;
 
@@ -750,6 +737,18 @@ document.querySelectorAll("[data-role-index]").forEach(select => {
     compile();
   });
 });
+
+document.querySelectorAll("[data-remove]").forEach(button => {
+  button.addEventListener("click", () => {
+    selections.splice(Number(button.dataset.remove), 1);
+    renderScene();
+    compile();
+  });
+});
+}    
+
+
+
    function compile() {
   if (!selections.length) {
     output.textContent = "Выбери хотя бы один элемент, чтобы собрать первый музыкальный бриф.";
