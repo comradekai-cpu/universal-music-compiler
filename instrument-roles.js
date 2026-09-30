@@ -84,9 +84,16 @@ let nextInstrumentOrder = 0;
   }
 
   function buildRoleLines(values = getCurrentInstrumentValues()) {
-    const groups = {};
+  const orderedValues = [...values].sort((a, b) => {
+    const orderA = instrumentOrder.has(a) ? instrumentOrder.get(a) : 999999;
+    const orderB = instrumentOrder.has(b) ? instrumentOrder.get(b) : 999999;
 
-    values.forEach(value => {
+    return orderA - orderB;
+  });
+
+  const groups = {};
+
+  orderedValues.forEach(value => {
       const role = state.get(value) ?? defaults[value] ?? 0;
 
       if (role === 0) return;
@@ -139,24 +146,15 @@ let nextInstrumentOrder = 0;
         state.set(value, defaults[value] ?? 0);
       }
 
-      if (card.dataset.instrumentRole) {
-        const select = card.querySelector(".instrument-role select");
-
-if (select) {
+    if (card.dataset.instrumentRole) {
   const select = card.querySelector(".instrument-role select");
 
-if (select) {
-  select.value = String(state.get(value));
+  if (select) {
+    select.value = String(state.get(value));
+  }
+
+  return;
 }
-}
-
-        if (select) {
-          select.value = String(state.get(value));
-        }
-
-        return;
-      }
-
       card.dataset.instrumentRole = "1";
 
       const label = document.createElement("label");
