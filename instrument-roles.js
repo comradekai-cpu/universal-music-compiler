@@ -140,7 +140,15 @@ let nextInstrumentOrder = 0;
       }
 
       if (card.dataset.instrumentRole) {
-        const select = card.querySelector("select");
+        const select = card.querySelector(".instrument-role select");
+
+if (select) {
+  const select = card.querySelector(".instrument-role select");
+
+if (select) {
+  select.value = String(state.get(value));
+}
+}
 
         if (select) {
           select.value = String(state.get(value));
