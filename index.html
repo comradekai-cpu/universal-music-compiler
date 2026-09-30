@@ -499,7 +499,44 @@
       background: var(--panel-light);
       font-size: 12px;
     }
+.copy-preview {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 11px;
+  line-height: 1.5;
+}
 
+.copy-preview strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.copy-preview pre {
+  max-height: 180px;
+  margin: 0;
+  overflow: auto;
+  color: #cfe7dc;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.copy-preview-toggle {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--panel-light);
+  font-size: 11px;
+}
     .notice {
       margin-top: 18px;
       padding: 13px;
@@ -664,6 +701,11 @@
           <button class="secondary-button" id="copyButton">Копировать</button>
           <button class="secondary-button" id="sampleButton">Пример</button>
         </div>
+        <div class="copy-preview" id="copyPreview" hidden>
+  <strong id="copyPreviewTitle">Скопировано</strong>
+  <pre id="copyPreviewText"></pre>
+  <button class="copy-preview-toggle" id="copyPreviewToggle">Скрыть prompt</button>
+</div>
       </aside>
     </section>
   </main>
@@ -1117,24 +1159,49 @@ function buildCompactPrompt() {
       renderScene();
       compile();
     });
+let lastCopiedPrompt = "";
 
-    document.getElementById("copyButton").addEventListener("click", async () => {
-      const compactPrompt = buildCompactPrompt();
-      const textToCopy = compactPrompt || output.textContent.trim();
+document.getElementById("copyButton").addEventListener("click", async () => {
+  const compactPrompt = buildCompactPrompt();
+  const textToCopy = compactPrompt || output.textContent.trim();
 
-      if (!textToCopy) return;
+  if (!textToCopy) return;
 
-      try {
-        await navigator.clipboard.writeText(textToCopy);
-        document.getElementById("copyButton").textContent = "Скопировано";
-        setTimeout(() => {
-          document.getElementById("copyButton").textContent = "Копировать";
-        }, 1500);
-      } catch {
-        alert("Не удалось автоматически скопировать текст.");
-      }
-    });
-  </script>
+  try {
+    await navigator.clipboard.writeText(textToCopy);
+
+    lastCopiedPrompt = textToCopy;
+
+    const preview = document.getElementById("copyPreview");
+    const previewTitle = document.getElementById("copyPreviewTitle");
+    const previewText = document.getElementById("copyPreviewText");
+    const previewToggle = document.getElementById("copyPreviewToggle");
+
+    previewTitle.textContent = `Скопировано · ${textToCopy.length} знаков`;
+    previewText.textContent = textToCopy;
+    preview.hidden = false;
+    previewToggle.textContent = "Скрыть prompt";
+
+    document.getElementById("copyButton").textContent = "Скопировано";
+
+    setTimeout(() => {
+      document.getElementById("copyButton").textContent = "Копировать";
+    }, 1500);
+  } catch {
+    alert("Не удалось автоматически скопировать текст.");
+  }
+});
+
+document.getElementById("copyPreviewToggle").addEventListener("click", () => {
+  const previewText = document.getElementById("copyPreviewText");
+  const previewToggle = document.getElementById("copyPreviewToggle");
+
+  const isHidden = previewText.style.display === "none";
+
+  previewText.style.display = isHidden ? "block" : "none";
+  previewToggle.textContent = isHidden ? "Скрыть prompt" : "Показать prompt";
+});
+     </script>
 <script src="vocal-direction.js?v=20260930a"></script>
 <script src="arrangement-logic.js?v=20260930a"></script>
 <script src="instrument-roles.js?v=20260930a"></script> 
