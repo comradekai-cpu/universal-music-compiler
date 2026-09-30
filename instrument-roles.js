@@ -123,11 +123,15 @@ let nextInstrumentOrder = 0;
 
     const lines = buildRoleLines(currentValues);
 
-    out.textContent =
-      base +
-      (lines.length
-        ? "\n\nARRANGEMENT ROLES:\n" + lines.join("\n")
-        : "");
+    const nextOutput =
+  base +
+  (lines.length
+    ? "\n\nARRANGEMENT ROLES:\n" + lines.join("\n")
+    : "");
+
+if (out.textContent !== nextOutput) {
+  out.textContent = nextOutput;
+}
   }
 
   function inject() {
@@ -249,15 +253,18 @@ let nextInstrumentOrder = 0;
     subtree: true
   });
 
-  new MutationObserver(() => {
-    if (!out.textContent.includes("ARRANGEMENT ROLES:")) {
-      add();
-    }
-  }).observe(out, {
-    childList: true,
-    characterData: true,
-    subtree: true
-  });
+ new MutationObserver(() => {
+  const hasInstruments = getCurrentInstrumentValues().length > 0;
+  const hasRoles = out.textContent.includes("ARRANGEMENT ROLES:");
+
+  if (hasInstruments && !hasRoles) {
+    add();
+  }
+}).observe(out, {
+  childList: true,
+  characterData: true,
+  subtree: true
+});
 
   inject();
 })();
