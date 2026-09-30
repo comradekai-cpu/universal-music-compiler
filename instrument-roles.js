@@ -27,7 +27,8 @@
   ];
 
   const state = new Map();
-
+const instrumentOrder = new Map();
+let nextInstrumentOrder = 0;
   const defaults = {
     piano: 1,
     accordion: 1,
@@ -69,11 +70,15 @@
       }
     }
 
-    currentValues.forEach(value => {
-      if (!state.has(value)) {
-        state.set(value, defaults[value] ?? 0);
-      }
-    });
+  currentValues.forEach(value => {
+  if (!state.has(value)) {
+    state.set(value, defaults[value] ?? 0);
+  }
+
+  if (!instrumentOrder.has(value)) {
+    instrumentOrder.set(value, nextInstrumentOrder++);
+  }
+});
 
     return currentValues;
   }
