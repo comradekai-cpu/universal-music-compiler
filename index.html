@@ -760,6 +760,7 @@
     const output = document.getElementById("output");
     const selectedCount = document.getElementById("selectedCount");
     let vocalLanguage = "ru";
+    window.vocalLanguage = vocalLanguage;
     function getRoleOptions(selectedRole) {
       const roles = [
         "Основа",
@@ -927,12 +928,13 @@ if (genreArchitecture) {
 
 if (vocals.length) {
   lines.push(`Vocal delivery: ${vocals.join(", ")}.`);
-  lines.push(
-    vocalLanguage === "ru"
-      ? "Sung in Russian. Clear natural Russian diction. Native Russian pronunciation."
-      : "Sung in English. Clear natural English diction. Native English pronunciation."
-  );
 }
+
+lines.push(
+  vocalLanguage === "ru"
+    ? "Sung in Russian. Clear natural Russian diction. Native Russian pronunciation."
+    : "Sung in English. Clear natural English diction. Native English pronunciation."
+);
 
   if (orchestration.length) {
     lines.push(`Orchestration: ${orchestration.join(", ")}.`);
@@ -1190,7 +1192,7 @@ if (vocals.length) {
 document.querySelectorAll("[data-vocal-language]").forEach(button => {
   button.addEventListener("click", () => {
     vocalLanguage = button.dataset.vocalLanguage;
-
+window.vocalLanguage = vocalLanguage;
     document.querySelectorAll("[data-vocal-language]").forEach(item => {
       item.classList.remove("active");
     });
