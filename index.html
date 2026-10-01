@@ -946,16 +946,26 @@ if (genreArchitecture) {
       return roles[type] || "Влияние";
     }
 
-    function addCatalogItem(type, value) {
-      selections.push({
-        type,
-        value,
-        role: getDefaultRole(type)
-      });
+   function addCatalogItem(type, value) {
+  const hasPrimaryGenre = selections.some(item =>
+    item.type === "Жанр" &&
+    (item.role || getDefaultRole(item.type)) === "Основа"
+  );
 
-      renderScene();
-      compile();
-    }
+  const role =
+    type === "Жанр" && hasPrimaryGenre
+      ? "Влияние"
+      : getDefaultRole(type);
+
+  selections.push({
+    type,
+    value,
+    role
+  });
+
+  renderScene();
+  compile();
+}
 
     function renderCatalog() {
       const searchText = catalogSearch.value.trim().toLowerCase();
