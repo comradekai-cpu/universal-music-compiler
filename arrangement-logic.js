@@ -424,18 +424,82 @@
     status.textContent = `${relation.label}: ${relation.message}`;
   }
 
-  function getInfluenceDescription(main, influence) {
-    const descriptions = [
-      `${influence} adds a subtle stylistic color without replacing the ${main} core.`,
-      `${influence} shapes the rhythmic movement while ${main} remains primary.`,
-      `${influence} adds harmonic color while preserving the ${main} identity.`,
-      `${influence} contributes orchestral and instrumental color without replacing the ${main} core.`,
-      `${influence} adds atmosphere and mood while ${main} remains primary.`,
-      `${influence} adds storytelling character while preserving the ${main} identity.`
-    ];
+function getInfluenceDescription(main, influence) {
+  const mainProfile = getGenreProfile(main);
+  const influenceProfile = getGenreProfile(influence);
 
-    return descriptions[state.influence];
+  const relation = classifyPair(mainProfile, influenceProfile);
+
+  if (relation.type === "conflict") {
+    if (influence === "Ambient") {
+      return [
+        "Use Ambient only as a restrained atmospheric layer:",
+        "soft pads, spacious textures and subtle transitions.",
+        `Preserve the driving ${main} groove, pulse and stylistic energy.`
+      ].join("\n");
+    }
+
+    return [
+      `Use ${influence} only as a restrained supporting color.`,
+      `Preserve the rhythmic and stylistic core of ${main}.`
+    ].join("\n");
   }
+
+  if (relation.type === "bridge") {
+    if (isLatin(influenceProfile)) {
+      return [
+        `Use ${influence} as a restrained rhythmic influence.`,
+        `${main} remains the primary musical identity.`
+      ].join("\n");
+    }
+
+    if (isClassicalOrCinematic(influenceProfile)) {
+      return [
+        `Use ${influence} for cinematic depth and orchestral color.`,
+        `Keep ${main} as the primary musical identity.`
+      ].join("\n");
+    }
+
+    return [
+      `Use ${influence} through a focused musical role.`,
+      `Keep ${main} as the primary musical identity.`
+    ].join("\n");
+  }
+
+  if (relation.type === "compatible") {
+    if (isCabaret(influenceProfile)) {
+      return [
+        `${influence} adds elegant cabaret color`,
+        `and subtle theatrical character without replacing the ${main} core.`
+      ].join(" ");
+    }
+
+    if (isJazz(influenceProfile)) {
+      return [
+        `${influence} adds subtle harmonic color`,
+        `and flexible phrasing while preserving the ${main} identity.`
+      ].join(" ");
+    }
+
+    if (isLatin(influenceProfile)) {
+      return [
+        `${influence} adds a natural rhythmic lift`,
+        `while ${main} remains the primary musical identity.`
+      ].join(" ");
+    }
+  }
+
+  const descriptions = [
+    `${influence} adds a subtle stylistic color without replacing the ${main} core.`,
+    `${influence} shapes the rhythmic movement while ${main} remains primary.`,
+    `${influence} adds harmonic color while preserving the ${main} identity.`,
+    `${influence} contributes orchestral and instrumental color without replacing the ${main} core.`,
+    `${influence} adds atmosphere and mood while ${main} remains primary.`,
+    `${influence} adds storytelling character while preserving the ${main} identity.`
+  ];
+
+  return descriptions[state.influence];
+}
 
   function getRhythmDescription(rhythm) {
     const descriptions = [
