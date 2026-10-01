@@ -847,13 +847,19 @@ function buildCompactPrompt() {
   const orchestration = getCompactRoleValues("Оркестровка");
   const moods = getCompactRoleValues("Настроение");
   const production = getCompactRoleValues("Продакшен");
-
+  const genreArchitecture =
+    typeof window.buildCompactGenreArchitecture === "function"
+      ? window.buildCompactGenreArchitecture()
+      : "";
   if (!bases.length && !instruments.length && !vocals.length) {
     return "";
   }
 
   const lines = [];
 
+if (genreArchitecture) {
+  lines.push(genreArchitecture);
+} else {
   if (bases.length) {
     lines.push(`Create a ${bases.join(" and ")} composition.`);
   }
@@ -861,6 +867,7 @@ function buildCompactPrompt() {
   if (influences.length) {
     lines.push(`Style influences: ${influences.join(", ")}.`);
   }
+}
 
   if (rhythms.length) {
     lines.push(`Rhythm: ${rhythms.join(", ")}.`);
@@ -1203,7 +1210,7 @@ document.getElementById("copyPreviewToggle").addEventListener("click", () => {
 });
      </script>
 <script src="vocal-direction.js?v=20260930a"></script>
-<script src="arrangement-logic.js?v=20260930a"></script>
+<script src="arrangement-logic.js?v=20261001a"></script>
 <script src="instrument-roles.js?v=20260930a"></script> 
 </body>
 </html>
