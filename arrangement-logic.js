@@ -444,7 +444,57 @@ function getInfluenceDescription(main, influence) {
       `Preserve the rhythmic and stylistic core of ${main}.`
     ].join("\n");
   }
+  if (
+    relation.type === "compatible" ||
+    relation.type === "bridge"
+  ) {
+    if (influence === "Bolero") {
+      return [
+        "Use a restrained Bolero pulse with gradual tension",
+        "and gentle rhythmic repetition.",
+        `Keep ${main} conversational, lyrical and vocally central.`
+      ].join("\n");
+    }
 
+    if (influence === "Bossa Nova") {
+      return [
+        "Use soft Bossa Nova syncopation and intimate acoustic motion.",
+        `Keep ${main} as the primary lyrical and vocal identity.`
+      ].join("\n");
+    }
+
+    if (influence === "Tango") {
+      return [
+        "Use Tango for dramatic accents, expressive phrasing",
+        "and controlled dance tension.",
+        `Keep ${main} as the primary musical identity.`
+      ].join("\n");
+    }
+
+    if (influence === "Film Score") {
+      return [
+        "Use Film Score for cinematic depth, restrained string color",
+        "and visual emotional lift.",
+        `Keep ${main} as the primary musical identity.`
+      ].join("\n");
+    }
+
+    if (influence === "Cool Jazz") {
+      return [
+        "Use Cool Jazz for restrained harmonic color, intimate phrasing",
+        "and a smooth late-night atmosphere.",
+        `Keep ${main} as the primary musical identity.`
+      ].join("\n");
+    }
+
+    if (influence === "Salsa") {
+      return [
+        "Use Salsa as a restrained rhythmic influence:",
+        "subtle clave motion, light percussion and dance energy.",
+        `Keep ${main} as the primary musical identity.`
+      ].join("\n");
+    }
+  }
   if (relation.type === "bridge") {
     if (isLatin(influenceProfile)) {
       return [
