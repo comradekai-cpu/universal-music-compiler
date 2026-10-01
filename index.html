@@ -469,6 +469,43 @@
     }
 
     .remove-button:hover {
+      .vocal-language {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: rgba(255,255,255,0.04);
+}
+
+.vocal-language-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.language-toggle {
+  display: flex;
+  gap: 6px;
+}
+
+.language-button {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: #18202d;
+  font-size: 12px;
+}
+
+.language-button.active {
+  border-color: var(--accent);
+  color: #07120f;
+  background: var(--accent);
+  font-weight: bold;
+}
       border-color: #e68080;
       color: #ffabab;
     }
@@ -682,7 +719,13 @@
             </div>
           </div>
         </div>
-
+<div class="vocal-language">
+  <span class="vocal-language-label">Язык вокала</span>
+  <div class="language-toggle">
+    <button class="language-button active" data-vocal-language="ru">Русский</button>
+    <button class="language-button" data-vocal-language="en">English</button>
+  </div>
+</div>
         <div class="notice">
           Это первый каркас приложения. Сейчас он проверяет сам принцип
           конструктора: материалы → сцена → результат.
@@ -716,6 +759,7 @@
     const scene = document.getElementById("scene");
     const output = document.getElementById("output");
     const selectedCount = document.getElementById("selectedCount");
+    let vocalLanguage = "ru";
     function getRoleOptions(selectedRole) {
       const roles = [
         "Основа",
@@ -814,6 +858,7 @@ document.querySelectorAll("[data-remove]").forEach(button => {
     `Ритмика: ${(groups["Ритмика"] || ["не задана"]).join(", ")}`,
     `Инструменты: ${(groups["Инструмент"] || ["не заданы"]).join(", ")}`,
     `Вокальная подача: ${(groups["Вокальная подача"] || ["не задана"]).join(", ")}`,
+    `Язык вокала: ${vocalLanguage === "ru" ? "русский" : "английский"}`,
     `Оркестровка: ${(groups["Оркестровка"] || ["не задана"]).join(", ")}`,
          "",
     "PROMPT:",
@@ -823,6 +868,9 @@ document.querySelectorAll("[data-remove]").forEach(button => {
     `Rhythm: ${(groups["Ритмика"] || ["not specified"]).join(", ")}.`,
     `Instrumentation: ${(groups["Инструмент"] || ["not specified"]).join(", ")}.`,
     `Vocal delivery: ${(groups["Вокальная подача"] || ["instrumental or not specified"]).join(", ")}.`,
+    vocalLanguage === "ru"
+  ? "Sung in Russian. Clear natural Russian diction. Native Russian pronunciation."
+  : "Sung in English. Clear natural English diction. Native English pronunciation.",
     `Orchestration: ${(groups["Оркестровка"] || ["not specified"]).join(", ")}.`,
     "Create a cohesive arrangement with a clear musical identity."
   ].join("\n");
@@ -877,9 +925,14 @@ if (genreArchitecture) {
     lines.push(`Instrumentation: ${instruments.join(", ")}.`);
   }
 
-  if (vocals.length) {
-    lines.push(`Vocal delivery: ${vocals.join(", ")}.`);
-  }
+if (vocals.length) {
+  lines.push(`Vocal delivery: ${vocals.join(", ")}.`);
+  lines.push(
+    vocalLanguage === "ru"
+      ? "Sung in Russian. Clear natural Russian diction. Native Russian pronunciation."
+      : "Sung in English. Clear natural English diction. Native English pronunciation."
+  );
+}
 
   if (orchestration.length) {
     lines.push(`Orchestration: ${orchestration.join(", ")}.`);
@@ -1134,7 +1187,18 @@ if (genreArchitecture) {
     });
 
     catalogSearch.addEventListener("input", renderCatalog);
+document.querySelectorAll("[data-vocal-language]").forEach(button => {
+  button.addEventListener("click", () => {
+    vocalLanguage = button.dataset.vocalLanguage;
 
+    document.querySelectorAll("[data-vocal-language]").forEach(item => {
+      item.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    compile();
+  });
+});
     renderCatalog();
     document.getElementById("buildButton").addEventListener("click", compile);
 
