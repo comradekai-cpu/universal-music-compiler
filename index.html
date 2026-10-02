@@ -506,6 +506,93 @@
   background: var(--accent);
   font-weight: bold;
 }
+      .roadmap-toggle {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: #18202d;
+  font-size: 12px;
+}
+
+.roadmap-toggle.active {
+  border-color: var(--accent);
+  color: #07120f;
+  background: var(--accent);
+  font-weight: bold;
+}
+
+.roadmap-panel {
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: rgba(255,255,255,0.04);
+}
+
+.roadmap-panel[hidden] {
+  display: none;
+}
+
+.roadmap-panel-title {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.roadmap-panel-subtitle {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.roadmap-select {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: #0f151f;
+  font-size: 12px;
+}
+
+.roadmap-content h4 {
+  margin: 12px 0 6px;
+  color: var(--orange);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.roadmap-content ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.roadmap-content p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.roadmap-close {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: #18202d;
+  font-size: 12px;
+}
       border-color: #e68080;
       color: #ffabab;
     }
@@ -726,6 +813,29 @@
     <button class="language-button" data-vocal-language="en">English</button>
   </div>
 </div>
+        <button class="roadmap-toggle" id="roadmapToggle" type="button">
+  Дорожная карта
+</button>
+
+<section class="roadmap-panel" id="roadmapPanel" hidden>
+  <h4 class="roadmap-panel-title">ДОРОЖНАЯ КАРТА</h4>
+  <p class="roadmap-panel-subtitle">
+    Выбери основу и получи короткий стартовый маршрут.
+    Справка ничего не меняет в сцене автоматически.
+  </p>
+
+  <select class="roadmap-select" id="roadmapSelect">
+    <option value="frenchChanson">French Chanson</option>
+    <option value="filmScore">Film Score</option>
+    <option value="jazz">Jazz / Cool Jazz</option>
+  </select>
+
+  <div class="roadmap-content" id="roadmapContent"></div>
+
+  <button class="roadmap-close" id="roadmapClose" type="button">
+    Скрыть дорожную карту
+  </button>
+</section>
         <div class="notice">
           Это первый каркас приложения. Сейчас он проверяет сам принцип
           конструктора: материалы → сцена → результат.
@@ -1189,6 +1299,117 @@ lines.push(
     });
 
     catalogSearch.addEventListener("input", renderCatalog);
+    const roadmapData = {
+  frenchChanson: {
+    title: "French Chanson",
+    start: [
+      "Piano — держит мелодию и гармонию",
+      "Upright bass — даёт мягкую низкую опору",
+      "Accordion или nylon-string guitar — создаёт французский характер"
+    ],
+    character: [
+      "Accordion — ближе, личнее, драматичнее",
+      "Nylon-string guitar — мягче и легче",
+      "Saxophone — тёплый вечерний ответ голосу",
+      "String section — более широкая эмоция"
+    ],
+    avoid: [
+      "Upright bass + bass guitar",
+      "Accordion + nylon-string guitar + piano как три равных ведущих слоя",
+      "Большой brass section для личной камерной песни"
+    ],
+    fit: "Текст личный, образный, разговорный или строится на воспоминании и спокойной драме."
+  },
+
+  filmScore: {
+    title: "Film Score",
+    start: [
+      "Piano — даёт гармонический каркас",
+      "String section — расширяет эмоцию",
+      "Low strings или cello — добавляет глубину"
+    ],
+    character: [
+      "Solo cello — личнее и интимнее",
+      "French horn — шире и благороднее",
+      "Soft woodwinds — тише, теплее и человечнее"
+    ],
+    avoid: [
+      "Full orchestra + brass section + choir + heavy percussion",
+      "Большой кинематографический слой, если вокал должен остаться камерным"
+    ],
+    fit: "Песня должна развиваться от спокойного начала к широкому, эмоциональному припеву."
+  },
+
+  jazz: {
+    title: "Jazz / Cool Jazz",
+    start: [
+      "Piano или jazz guitar — гармония и музыкальная опора",
+      "Upright bass — мягкий низ и пульс",
+      "Drums — движение и живой ритм"
+    ],
+    character: [
+      "Saxophone — тёплый, певучий, вечерний оттенок",
+      "Trumpet — ярче и энергичнее",
+      "Muted trumpet — тише, камернее, ближе к cabaret"
+    ],
+    avoid: [
+      "Upright bass + bass guitar",
+      "Saxophone + trumpet + brass section, если нужен камерный вокал",
+      "Piano + guitar как два равных ведущих инструмента без явной причины"
+    ],
+    fit: "Нужно живое, тёплое, вечернее и разговорное звучание."
+  }
+};
+
+const roadmapToggle = document.getElementById("roadmapToggle");
+const roadmapPanel = document.getElementById("roadmapPanel");
+const roadmapSelect = document.getElementById("roadmapSelect");
+const roadmapContent = document.getElementById("roadmapContent");
+const roadmapClose = document.getElementById("roadmapClose");
+
+function roadmapList(items) {
+  return `<ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>`;
+}
+
+function renderRoadmap() {
+  const roadmap = roadmapData[roadmapSelect.value];
+
+  roadmapContent.innerHTML = `
+    <h4>Начни с этого</h4>
+    ${roadmapList(roadmap.start)}
+
+    <h4>Выбери характер</h4>
+    ${roadmapList(roadmap.character)}
+
+    <h4>Не добавляй автоматически</h4>
+    ${roadmapList(roadmap.avoid)}
+
+    <h4>Подходит, если…</h4>
+    <p>${roadmap.fit}</p>
+  `;
+}
+
+function setRoadmapOpen(isOpen) {
+  roadmapPanel.hidden = !isOpen;
+  roadmapToggle.classList.toggle("active", isOpen);
+  roadmapToggle.textContent = isOpen ? "Дорожная карта открыта" : "Дорожная карта";
+}
+
+roadmapToggle.addEventListener("click", () => {
+  const willOpen = roadmapPanel.hidden;
+
+  if (willOpen) {
+    renderRoadmap();
+  }
+
+  setRoadmapOpen(willOpen);
+});
+
+roadmapClose.addEventListener("click", () => {
+  setRoadmapOpen(false);
+});
+
+roadmapSelect.addEventListener("change", renderRoadmap);
 document.querySelectorAll("[data-vocal-language]").forEach(button => {
   button.addEventListener("click", () => {
     vocalLanguage = button.dataset.vocalLanguage;
