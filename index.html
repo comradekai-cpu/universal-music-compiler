@@ -825,10 +825,13 @@
   </p>
 
   <select class="roadmap-select" id="roadmapSelect">
-    <option value="frenchChanson">French Chanson</option>
-    <option value="filmScore">Film Score</option>
-    <option value="jazz">Jazz / Cool Jazz</option>
-  </select>
+  <option value="frenchChanson">French Chanson</option>
+  <option value="filmScore">Film Score</option>
+  <option value="jazz">Jazz / Cool Jazz</option>
+  <option value="bossaNova">Bossa Nova</option>
+  <option value="bolero">Bolero</option>
+  <option value="salsa">Salsa</option>
+</select>
 
   <div class="roadmap-content" id="roadmapContent"></div>
 
@@ -1357,7 +1360,74 @@ lines.push(
       "Saxophone + trumpet + brass section, если нужен камерный вокал",
       "Piano + guitar как два равных ведущих инструмента без явной причины"
     ],
-    fit: "Нужно живое, тёплое, вечернее и разговорное звучание."
+     fit: "Нужно живое, тёплое, вечернее и разговорное звучание."
+  },
+
+  bossaNova: {
+    title: "Bossa Nova",
+    start: [
+      "Nylon-string guitar — даёт мягкое, плавное движение",
+      "Upright bass — держит спокойную низкую опору",
+      "Light percussion или brushes — добавляет ритм, не давя на вокал"
+    ],
+    character: [
+      "Piano — если хочется больше гармонической глубины",
+      "Saxophone — если нужен мягкий вечерний ответ голосу",
+      "Flute или soft woodwinds — если нужна лёгкость и воздух",
+      "String quartet — если хочется камерной лирики"
+    ],
+    avoid: [
+      "Congas + bongos + timbales одновременно",
+      "Heavy drums или агрессивный brass section",
+      "Full orchestra, если песня должна остаться лёгкой и близкой"
+    ],
+    fit: "Нужна мягкая, тёплая, камерная песня с лёгким движением, без сильного давления ритма."
+  },
+
+  bolero: {
+    title: "Bolero",
+    start: [
+      "Nylon-string guitar — держит мягкую ритмическую и гармоническую основу",
+      "Upright bass — даёт спокойный фундамент",
+      "Soft bongos или gentle percussion — поддерживает пульс, не споря с голосом"
+    ],
+    character: [
+      "Piano — если нужны более широкие гармонические ответы",
+      "String section — если песня должна постепенно расширяться",
+      "Solo cello — если нужна личная драматическая глубина",
+      "Flute или soft woodwinds — если нужен нежный, романтический оттенок"
+    ],
+    avoid: [
+      "Быстрые или тяжёлые drums",
+      "Congas + bongos + timbales как для Salsa",
+      "Большой brass section в начале песни",
+      "Слишком много ведущих инструментов одновременно"
+    ],
+    fit: "Песня должна постепенно набирать эмоцию: от близкого, сдержанного начала к более широкому припеву или финалу."
+  },
+
+  salsa: {
+    title: "Salsa",
+    start: [
+      "Piano — создаёт живой ритмический рисунок",
+      "Upright bass — держит танцевальный фундамент",
+      "Congas — дают основное живое движение",
+      "Bongos или timbales — добавляют характерный латинский акцент"
+    ],
+    character: [
+      "Bongos — легче, живее и игривее",
+      "Timbales — ярче, энергичнее и заметнее",
+      "Brass section — больше праздника и сцены",
+      "Saxophone — мягче, ближе к Jazz или Cabaret",
+      "Nylon-string guitar — теплее и камернее"
+    ],
+    avoid: [
+      "Piano + accordion как два равных ведущих ритмических слоя",
+      "Upright bass + bass guitar",
+      "Brass section + saxophone + muted trumpet одновременно, если нужен вокальный центр",
+      "Full orchestra, если цель — живая танцевальная энергия"
+    ],
+    fit: "Песне нужна открытая энергия, движение, живой танцевальный пульс и ощущение праздника или сцены."
   }
 };
 
